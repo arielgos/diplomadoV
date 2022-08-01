@@ -11,6 +11,17 @@ const firebaseConfig = {
     measurementId: "G-MWL22S5EDC"
 };
 
+/**
+ * Fix for invalid domain ans session atributes
+ */
+window.dataLayer = window.dataLayer || [];
+window.gtag = function(){window.dataLayer.push(arguments);}
+
+window.gtag("config", firebaseConfig.measurementId, {
+	cookie_domain: window.location.hostname,
+	cookie_flags: "SameSite=None;Secure",
+});
+
 const firebase = initializeApp(firebaseConfig);
 const analytics = getAnalytics(firebase);
 
