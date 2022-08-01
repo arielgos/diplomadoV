@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js";
-import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-analytics.js";
+import { getAnalytics, logEvent, setUserProperties } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-analytics.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCN434D3q_QIE1yDFf4QNtiKRDp93mA3fs",
@@ -27,6 +27,8 @@ const analytics = getAnalytics(firebase);
 
 //analytics
 logEvent(analytics, 'App Start');
+
+setUserProperties(analytics, { platform: 'web' });
 
 let trackSimpleEventButton = document.getElementById("trackSimpleEvent");
 
