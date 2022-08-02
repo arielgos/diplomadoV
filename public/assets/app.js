@@ -75,12 +75,22 @@ const rcDefaultsJson = await rcDefaultsFile.json();
 remoteConfig.defaultConfig = rcDefaultsJson;
 
 console.log(remoteConfig.defaultConfig.welcomeMessage);
+console.log(remoteConfig.defaultConfig.version);
+
+updateTitle(remoteConfig.defaultConfig.welcomeMessage, remoteConfig.defaultConfig.version);
 
 fetchAndActivate(remoteConfig)
     .then(() => {
         const welcomeMessage = getValue(remoteConfig, "welcomeMessage");
+        const version = getValue(remoteConfig, "version");
         console.log(welcomeMessage.asString());
+        console.log(version.asNumber());
+        updateTitle(welcomeMessage.asString(), version.asNumber());
     })
     .catch((err) => {
         console.error(err);
     });
+
+function updateTitle(title, version) {
+    document.title = title + " [" + version + "]";
+}
