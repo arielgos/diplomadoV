@@ -1,4 +1,4 @@
-import { trackEvent, authentication } from "./firebase.js";
+import { trackEvent, authentication, firebase, firestore } from "./firebase.js";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
 import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js";
 import { loading } from "./utils.js";
@@ -53,7 +53,7 @@ $(function () {
                 const user = userCredential.user;
                 console.log(user);
                 try {
-                    const userRef = addDoc(collection(db, "users"), {
+                    const userRef = addDoc(collection(firestore, "users"), {
                         "id": userCredential.user.uid,
                         "fullName": name,
                         "email": email
