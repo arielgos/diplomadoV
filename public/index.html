@@ -5,18 +5,127 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diplomado V</title>
+  <title>..::..</title>
 
+  <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/sweetalert.css">
+  <link rel="stylesheet" href="assets/css/style.css">
 
 </head>
 
 <body>
 
-  <a id="trackSimpleEvent">Rastrear Evento Simple</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" id="title">{title}</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+        aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-  <a id="trackEvent">Rastrear Evento con Parametros</a>
+      <div class="collapse navbar-collapse flex-grow-1 text-right" id="navbarColor01">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          <li>
+            <a class="nav-link" href="#">
+              <span class="fa fa-cart-shopping"></span>&nbsp;&nbsp;Productos
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" href="#">
+              <span class="fa fa-wrench"></span>&nbsp;&nbsp;Administraci&oacute;n
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+              <span class="fa fa-user-astronaut"></span>&nbsp;&nbsp;Mi Cuenta
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-  <script src="assets/app.js" type="module"></script>
+  <div class="modal fade" id="loginModal" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Ingresar a mi cuenta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="#" method="post">
+            <div class="form-group">
+              <label for="email" class="form-label mt-0">Correo Electrónico</label>
+              <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                placeholder="Ingrese su correo electrónico" required>
+              <small id="emailHelp" class="form-text text-muted">Ingrese el correo electrónico con el cual esta
+                registrado</small>
+            </div>
+            <div class="form-group">
+              <label for="password" class="form-label mt-4">Contraseña</label>
+              <input type="password" class="form-control" id="password" placeholder="Código de acceso" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+            data-bs-target="#registerModal">Registrarse</button>
+          <button type="button" class="btn btn-primary">Ingresar</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="registerModal" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Registre su cuenta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="#" method="post"></form>
+          <div class="form-group">
+            <div class="form-group">
+              <label class="col-form-label col-form-label" for="name">Nombre Completo</label>
+              <input class="form-control form-control" type="text" placeholder="Nombre Completo" id="name">
+            </div>
+            <label for="email" class="form-label mt-4">Correo Electrónico</label>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+              placeholder="Ingrese su correo electrónico" required>
+            <small id="emailHelp" class="form-text text-muted">Ingrese el correo electrónico con el cual esta
+              registrado</small>
+          </div>
+          <div class="form-group">
+            <label for="password" class="form-label mt-4">Contraseña</label>
+            <input type="password" class="form-control" id="password" placeholder="Código de acceso" required>
+          </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Registrar</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="loading">
+    <div>Cargando...</div>
+  </div>
+
+  <script src="assets/js/firebase.js" type="module"></script>
+  <script src="assets/js/fontawesome.min.js" type="module"></script>
+  <script src="assets/js/jquery-3.6.0.min.js" type=" module"></script>
+  <script src="assets/js/bootstrap.min.js" type="module"></script>
+  <script src="assets/js/sweetalert.min.js" type="module"></script>
+  <script src="assets/js/account.js" type="module"></script>
 
 </body>
 

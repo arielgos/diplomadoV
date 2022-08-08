@@ -1,6 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js";
 import { getAnalytics, logEvent, setUserProperties } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-analytics.js";
 import { getRemoteConfig, getValue, fetchAndActivate } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-remote-config.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-database.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
 
 const config = {
     apiKey: "AIzaSyCN434D3q_QIE1yDFf4QNtiKRDp93mA3fs",
@@ -9,7 +12,8 @@ const config = {
     storageBucket: "diplomadov-f5e39.appspot.com",
     messagingSenderId: "135023020170",
     appId: "1:135023020170:web:3d9646ba3b832a1d878573",
-    measurementId: "G-MWL22S5EDC"
+    measurementId: "G-MWL22S5EDC",
+    databaseURL: "https://diplomadov-f5e39-default-rtdb.firebaseio.com"
 };
 
 /**
@@ -23,46 +27,19 @@ window.gtag("config", config.measurementId, {
     cookie_flags: "SameSite=None;Secure",
 });
 
-const app = initializeApp(config);
-const analytics = getAnalytics(app);
-const remoteConfig = getRemoteConfig(app);
+const firebase = initializeApp(config);
+const analytics = getAnalytics(firebase);
+const remoteConfig = getRemoteConfig(firebase);
+const realtimeDatabase = getDatabase(firebase);
+const firestore = getFirestore(firebase);
+const authentication = getAuth(firebase);
 
-//analytics
-logEvent(analytics, 'App Start');
 
+/**
+ * Analytics
+ */
 setUserProperties(analytics, { platform: 'web' });
-
-let trackSimpleEventButton = document.getElementById("trackSimpleEvent");
-
-trackSimpleEventButton.addEventListener('click', function (event) {
-    event.preventDefault();
-    logEvent(analytics, 'Track Simple Event Click');
-    console.log("Evento rastreado");
-});
-
-let trackEventButton = document.getElementById("trackEvent");
-
-trackEventButton.addEventListener('click', function (event) {
-    event.preventDefault();
-
-    const params = {
-        item_list_id: 'P001',
-        item_list_name: 'Products',
-        items: [{
-            item_id: 'SKU_123',
-            item_name: 'Laptop 1',
-            item_category: 'PC',
-            item_variant: 'black',
-            item_brand: 'Apple',
-            price: 2350
-        }]
-    };
-
-    logEvent(analytics, 'Track Event Click', params);
-
-    console.log("Evento con parametros rastreado");
-});
-
+logEvent(analytics, 'Firebase Loaded');
 
 /**
  * Remote config
@@ -74,18 +51,13 @@ const rcDefaultsJson = await rcDefaultsFile.json();
 
 remoteConfig.defaultConfig = rcDefaultsJson;
 
-console.log(remoteConfig.defaultConfig.welcomeMessage);
-console.log(remoteConfig.defaultConfig.version);
-
-updateTitle(remoteConfig.defaultConfig.welcomeMessage, remoteConfig.defaultConfig.version);
+updateTitle(remoteConfig.defaultConfig.appTitle, remoteConfig.defaultConfig.version);
 
 fetchAndActivate(remoteConfig)
     .then(() => {
-        const welcomeMessage = getValue(remoteConfig, "welcomeMessage");
+        const appTitle = getValue(remoteConfig, "appTitle");
         const version = getValue(remoteConfig, "version");
-        console.log(welcomeMessage.asString());
-        console.log(version.asNumber());
-        updateTitle(welcomeMessage.asString(), version.asNumber());
+        updateTitle(appTitle.asString(), version.asNumber());
     })
     .catch((err) => {
         console.error(err);
@@ -93,4 +65,13 @@ fetchAndActivate(remoteConfig)
 
 function updateTitle(title, version) {
     document.title = title + " [" + version + "]";
+    document.getElementById('title').innerHTML = document.title;
 }
+
+
+function trackEvent(message) {
+    console.log(message);
+    logEvent(analytics, message);
+}
+
+export { firebase, trackEvent, remoteConfig, authentication, realtimeDatabase, firestore }
