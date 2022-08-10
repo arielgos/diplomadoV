@@ -6,4 +6,9 @@ function loading(value) {
     }
 }
 
+$('.modal').modal({
+    keyboard: false,
+    backdrop: 'static'
+});
+
 export { loading }
