@@ -1,6 +1,6 @@
 import { trackEvent, authentication, firestore } from "./firebase.js";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
-import { collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js";
+import { collection, addDoc, query, where, getDocs, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js";
 import { loading } from "./utils.js";
 
 $(function () {
@@ -89,6 +89,24 @@ $(function () {
         });
     });
 
+    /**
+     * My account
+     */
+    $('#accountModal .btn-primary').click(async function (event) {
+        event.preventDefault();
+        let id = $('#accountModal #id').val();
+        let name = $('#accountModal #name').val();
+        let email = $('#accountModal #email').val();
+        loading(true);
+        await setDoc(doc(firestore, "users", id), {
+            name: name,
+            email: email
+        });
+        loading(false);
+        $('#accountModal').modal('hide');
+        swal("Confirmación", "Su cuenta ha sido actualizada", "success");
+    });
+
 });
 
 /**
@@ -103,6 +121,12 @@ onAuthStateChanged(authentication, async (user) => {
             $('.private').show();
             $('.public').hide();
             loading(false);
+            /**
+             * Loading user data
+             */
+            $('#accountModal #id').val(doc.id);
+            $('#accountModal #name').val(doc.data().name);
+            $('#accountModal #email').val(doc.data().email);
         });
     } else {
         $('.private').hide();

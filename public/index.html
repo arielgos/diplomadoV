@@ -37,7 +37,7 @@
             </a>
           </li>
           <li class="private">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#accountModal">
               <span class="fa fa-user-astronaut"></span>&nbsp;&nbsp;Mi Cuenta
             </a>
           </li>
@@ -127,29 +127,60 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="#" method="post"></form>
-          <div class="form-group">
+          <form action="#" method="post">
             <div class="form-group">
-              <label class="col-form-label col-form-label" for="name">Nombre Completo</label>
-              <input class="form-control form-control" type="text" placeholder="Nombre Completo" id="name">
+              <div class="form-group">
+                <label class="col-form-label col-form-label" for="name">Nombre Completo</label>
+                <input class="form-control form-control" type="text" placeholder="Nombre Completo" id="name">
+              </div>
+              <label for="email" class="form-label mt-4">Correo Electrónico</label>
+              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Ingrese su correo electrónico" required>
+              <small id="emailHelp" class="form-text text-muted">Ingrese el correo electrónico con el cual esta
+                registrado</small>
             </div>
-            <label for="email" class="form-label mt-4">Correo Electrónico</label>
-            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Ingrese su correo electrónico" required>
-            <small id="emailHelp" class="form-text text-muted">Ingrese el correo electrónico con el cual esta
-              registrado</small>
-          </div>
-          <div class="form-group">
-            <label for="password" class="form-label mt-4">Contraseña</label>
-            <input type="password" class="form-control" id="password" placeholder="Código de acceso" required>
-          </div>
-          <div class="form-group">
-            <label for="confirmPassword" class="form-label mt-4">Confirmar Contraseña</label>
-            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirmar código de acceso" required>
-          </div>
+            <div class="form-group">
+              <label for="password" class="form-label mt-4">Contraseña</label>
+              <input type="password" class="form-control" id="password" placeholder="Código de acceso" required>
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword" class="form-label mt-4">Confirmar Contraseña</label>
+              <input type="password" class="form-control" id="confirmPassword" placeholder="Confirmar código de acceso" required>
+            </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary">Registrar</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- My Account -->
+  <div class="modal fade" id="accountModal" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar Cuenta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="#" method="post">
+            <input type="hidden" id="id">
+            <div class="form-group">
+              <div class="form-group">
+                <label class="col-form-label col-form-label" for="name">Nombre Completo</label>
+                <input class="form-control form-control" type="text" placeholder="Nombre Completo" id="name">
+              </div>
+              <label for="email" class="form-label mt-4">Correo Electrónico</label>
+              <input type="email" class="form-control text-muted" id="email" aria-describedby="emailHelp" required readonly>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Guardar</button>
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
         </div>
       </div>
