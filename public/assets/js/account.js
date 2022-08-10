@@ -77,7 +77,7 @@ $(function () {
     });
 
     /**
-     * sign out
+     * Sign Out
      */
     $("#signOut").click(function (event) {
         event.preventDefault();
