@@ -91,7 +91,9 @@ $(function () {
 
 });
 
-
+/**
+ * Auth State listener
+ */
 onAuthStateChanged(authentication, async (user) => {
     if (user) {
         loading(true);
