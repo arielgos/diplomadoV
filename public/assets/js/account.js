@@ -1,6 +1,6 @@
-import { trackEvent, authentication, firebase, firestore } from "./firebase.js";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
-import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js";
+import { trackEvent, authentication, firestore } from "./firebase.js";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
+import { collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js";
 import { loading } from "./utils.js";
 
 $(function () {
@@ -20,6 +20,7 @@ $(function () {
                 loading(false);
                 const user = userCredential.user;
                 console.log(user);
+                $('#loginModal').modal('hide');
                 trackEvent('Login...');
             })
             .catch((error) => {
@@ -48,17 +49,19 @@ $(function () {
         loading(true);
 
         createUserWithEmailAndPassword(authentication, email, password)
-            .then((userCredential) => {
+            .then(async (userCredential) => {
                 loading(false);
                 const user = userCredential.user;
                 console.log(user);
                 try {
-                    const userRef = addDoc(collection(firestore, "users"), {
+                    const userRef = await addDoc(collection(firestore, "users"), {
                         "id": userCredential.user.uid,
-                        "fullName": name,
-                        "email": email
+                        "name": name,
+                        "email": email,
+                        "profile": 0
                     });
                     console.log("Document written with ID: ", userRef.id);
+                    $('#registerModal').modal('hide');
                     swal("Confirmación", "El usuario ha sido registrado con exito", "success");
                     trackEvent('Registro...');
                 } catch (e) {
@@ -73,4 +76,39 @@ $(function () {
             });
     });
 
+    /**
+     * sign out
+     */
+    $("#signOut").click(function (event) {
+        event.preventDefault();
+        signOut(authentication).then(() => {
+            loading(true);
+            location.reload();
+        }).catch((error) => {
+            console.error(error.message, error);
+        });
+    });
+
+    $('.modal').modal({
+        keyboard: false,
+        backdrop: 'static'
+    });
+
+});
+
+
+onAuthStateChanged(authentication, async (user) => {
+    if (user) {
+        loading(true);
+        const querySnapshot = await getDocs(query(collection(firestore, "users"), where("id", "==", user.uid)));
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data());
+            $('.private').show();
+            $('.public').hide();
+            loading(false);
+        });
+    } else {
+        $('.private').hide();
+        $('.public').show();
+    }
 });

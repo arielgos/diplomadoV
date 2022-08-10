@@ -16,29 +16,66 @@
 
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#" id="title">{title}</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
-        aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand" href="#">
+        <span class="fa fa-shop"></span>&nbsp;&nbsp;<span id="title"></span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse flex-grow-1 text-right" id="navbarColor01">
-        <ul class="navbar-nav ml-auto flex-nowrap">
-          <li>
-            <a class="nav-link" href="#">
-              <span class="fa fa-cart-shopping"></span>&nbsp;&nbsp;Productos
-            </a>
-          </li>
-          <li>
-            <a class="nav-link" href="#">
-              <span class="fa fa-wrench"></span>&nbsp;&nbsp;Administraci&oacute;n
-            </a>
-          </li>
-          <li>
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav me-auto">
+
+        </ul>
+        <ul class="navbar-nav d-flex">
+          <li class="public">
             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+              <span class="fa fa-lock"></span>&nbsp;&nbsp;Ingresar</a>
+            </a>
+          </li>
+          <li class="private">
+            <a class="nav-link" href="#">
               <span class="fa fa-user-astronaut"></span>&nbsp;&nbsp;Mi Cuenta
+            </a>
+          </li>
+          <li class="nav-item dropdown private">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+              <span class="fa fa-wrench"></span>&nbsp;&nbsp;Administraci&oacute;n</a>
+            <div class="dropdown-menu" data-bs-popper="static">
+              <a class="dropdown-item" href="#">
+                <span class="fa fa-wrench"></span>&nbsp;&nbsp;Productos</a>
+              </a>
+              <a class="dropdown-item" href="#">
+                <span class="fa fa-money-check-dollar"></span>&nbsp;&nbsp;Lista de Precios</a>
+              </a>
+              <a class="dropdown-item" href="#">
+                <span class="fa fa-users"></span>&nbsp;&nbsp;Clientes</a>
+              </a>
+              <a class="dropdown-item" href="#">
+                <span class="fa fa-user-gear"></span>&nbsp;&nbsp;Usuarios</a>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">
+                <span class="fa fa-basket-shopping"></span>&nbsp;&nbsp;Pedidos</a>
+              </a>
+            </div>
+          </li>
+          <li class="private">
+            <a class="nav-link" href="#">
+              <span class="fa fa-comments"></span>&nbsp;&nbsp;Chats</a>
+            </a>
+          </li>
+          <li class="private">
+            <a class="nav-link" href="#">
+              <span class="fa fa-envelope"></span>&nbsp;&nbsp;Contacto</a>
+            </a>
+          </li>
+          <li class="private">
+            <a class="nav-link" href="#" id="signOut">
+              <span class="fa fa-unlock"></span>&nbsp;&nbsp;Salir</a>
             </a>
           </li>
         </ul>
@@ -46,6 +83,7 @@
     </div>
   </nav>
 
+  <!-- Login -->
   <div class="modal fade" id="loginModal" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -59,8 +97,7 @@
           <form action="#" method="post">
             <div class="form-group">
               <label for="email" class="form-label mt-0">Correo Electrónico</label>
-              <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                placeholder="Ingrese su correo electrónico" required>
+              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Ingrese su correo electrónico" required>
               <small id="emailHelp" class="form-text text-muted">Ingrese el correo electrónico con el cual esta
                 registrado</small>
             </div>
@@ -71,8 +108,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-            data-bs-target="#registerModal">Registrarse</button>
+          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
           <button type="button" class="btn btn-primary">Ingresar</button>
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
         </div>
@@ -80,6 +116,7 @@
     </div>
   </div>
 
+  <!-- Registry -->
   <div class="modal fade" id="registerModal" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -97,8 +134,7 @@
               <input class="form-control form-control" type="text" placeholder="Nombre Completo" id="name">
             </div>
             <label for="email" class="form-label mt-4">Correo Electrónico</label>
-            <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-              placeholder="Ingrese su correo electrónico" required>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Ingrese su correo electrónico" required>
             <small id="emailHelp" class="form-text text-muted">Ingrese el correo electrónico con el cual esta
               registrado</small>
           </div>
