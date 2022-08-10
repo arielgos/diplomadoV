@@ -16,10 +16,8 @@ $(function () {
         loading(true);
 
         signInWithEmailAndPassword(authentication, email, password)
-            .then((userCredential) => {
+            .then(() => {
                 loading(false);
-                const user = userCredential.user;
-                console.log(user);
                 $('#loginModal').modal('hide');
                 trackEvent('Login...');
             })
@@ -51,8 +49,6 @@ $(function () {
         createUserWithEmailAndPassword(authentication, email, password)
             .then(async (userCredential) => {
                 loading(false);
-                const user = userCredential.user;
-                console.log(user);
                 try {
                     const userRef = await addDoc(collection(firestore, "users"), {
                         "id": userCredential.user.uid,
@@ -60,7 +56,6 @@ $(function () {
                         "email": email,
                         "profile": 0
                     });
-                    console.log("Document written with ID: ", userRef.id);
                     $('#registerModal').modal('hide');
                     swal("Confirmación", "El usuario ha sido registrado con exito", "success");
                     trackEvent('Registro...');
@@ -95,12 +90,16 @@ $(function () {
     $('#accountModal .btn-primary').click(async function (event) {
         event.preventDefault();
         let id = $('#accountModal #id').val();
+        let uid = $('#accountModal #uid').val();
         let name = $('#accountModal #name').val();
         let email = $('#accountModal #email').val();
+        let profile = $('#accountModal #profile').val();
         loading(true);
         await setDoc(doc(firestore, "users", id), {
+            id: uid,
             name: name,
-            email: email
+            email: email,
+            profile: profile
         });
         loading(false);
         $('#accountModal').modal('hide');
@@ -117,7 +116,6 @@ onAuthStateChanged(authentication, async (user) => {
         loading(true);
         const querySnapshot = await getDocs(query(collection(firestore, "users"), where("id", "==", user.uid)));
         querySnapshot.forEach((doc) => {
-            console.log(doc.id, " => ", doc.data());
             $('.private').show();
             $('.public').hide();
             loading(false);
@@ -125,8 +123,10 @@ onAuthStateChanged(authentication, async (user) => {
              * Loading user data
              */
             $('#accountModal #id').val(doc.id);
+            $('#accountModal #uid').val(doc.data().id);
             $('#accountModal #name').val(doc.data().name);
             $('#accountModal #email').val(doc.data().email);
+            $('#accountModal #profile').val(doc.data().profile);
         });
     } else {
         $('.private').hide();
