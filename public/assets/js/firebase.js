@@ -4,6 +4,7 @@ import { getRemoteConfig, getValue, fetchAndActivate } from "https://www.gstatic
 import { getDatabase } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-database.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
+import { getMessaging } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-messaging.js";
 
 const config = {
     apiKey: "AIzaSyCN434D3q_QIE1yDFf4QNtiKRDp93mA3fs",
@@ -41,6 +42,11 @@ const authentication = getAuth(firebase);
 setUserProperties(analytics, { platform: 'web' });
 logEvent(analytics, 'Firebase Loaded');
 
+function trackEvent(message) {
+    console.log(message);
+    logEvent(analytics, message);
+}
+
 /**
  * Remote config
  */
@@ -68,10 +74,9 @@ function updateTitle(title, version) {
     document.getElementById('title').innerHTML = document.title;
 }
 
+/**
+ * Cloud Messaging
+ */
+const messaging = getMessaging(firebase);
 
-function trackEvent(message) {
-    console.log(message);
-    logEvent(analytics, message);
-}
-
-export { firebase, trackEvent, remoteConfig, authentication, realtimeDatabase, firestore }
+export { firebase, trackEvent, remoteConfig, authentication, realtimeDatabase, firestore, messaging }
