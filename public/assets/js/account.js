@@ -48,7 +48,6 @@ $(function () {
 
         createUserWithEmailAndPassword(authentication, email, password)
             .then(async (userCredential) => {
-                loading(false);
                 try {
                     const userRef = await addDoc(collection(firestore, "users"), {
                         "id": userCredential.user.uid,
@@ -57,9 +56,11 @@ $(function () {
                         "profile": 0
                     });
                     $('#registerModal').modal('hide');
+                    loading(false);
                     swal("Confirmación", "El usuario ha sido registrado con exito", "success");
                     trackEvent('Registro...');
                 } catch (e) {
+                    loading(false);
                     console.error("Error adding document: ", e);
                     swal("Error!", "No se ha podido crear al usuario", "error");
                 }

@@ -34,7 +34,7 @@ const remoteConfig = getRemoteConfig(firebase);
 const realtimeDatabase = getDatabase(firebase);
 const firestore = getFirestore(firebase);
 const authentication = getAuth(firebase);
-
+const messaging = getMessaging(firebase);
 
 /**
  * Analytics
@@ -77,6 +77,6 @@ function updateTitle(title, version) {
 /**
  * Cloud Messaging
  */
-const messaging = getMessaging(firebase);
+
 
 export { firebase, trackEvent, remoteConfig, authentication, realtimeDatabase, firestore, messaging }
