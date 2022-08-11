@@ -4,7 +4,6 @@ import { collection, addDoc, query, where, getDocs, setDoc, doc } from "https://
 import { loading } from "./utils.js";
 
 $(function () {
-    trackEvent('App Loaded...');
     /**
      * Login
      */

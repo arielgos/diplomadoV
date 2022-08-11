@@ -47,6 +47,8 @@ function trackEvent(message) {
     logEvent(analytics, message);
 }
 
+trackEvent('App Loaded...');
+
 /**
  * Remote config
  */
