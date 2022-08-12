@@ -55,6 +55,7 @@ $(function () {
                         profile: 0,
                         token: ""
                     });
+
                     $('#registerModal').modal('hide');
                     loading(false);
                     swal("Confirmación", "El usuario ha sido registrado con exito", "success");
@@ -101,7 +102,7 @@ $(function () {
             name: name,
             email: email,
             profile: profile,
-            profile: token
+            token: token
         });
         loading(false);
         $('#accountModal').modal('hide');
