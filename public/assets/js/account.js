@@ -52,7 +52,8 @@ $(function () {
                         id: userCredential.uid,
                         name: name,
                         email: email,
-                        profile: profile
+                        profile: 0,
+                        token: ""
                     });
                     $('#registerModal').modal('hide');
                     loading(false);
@@ -93,12 +94,14 @@ $(function () {
         let name = $('#accountModal #name').val();
         let email = $('#accountModal #email').val();
         let profile = $('#accountModal #profile').val();
+        let token = $('#accountModal #token').val();
         loading(true);
         await setDoc(doc(firestore, "users", id), {
             id: id,
             name: name,
             email: email,
-            profile: profile
+            profile: profile,
+            profile: token
         });
         loading(false);
         $('#accountModal').modal('hide');
@@ -125,6 +128,7 @@ onAuthStateChanged(authentication, async (user) => {
             $('#accountModal #name').val(doc.data().name);
             $('#accountModal #email').val(doc.data().email);
             $('#accountModal #profile').val(doc.data().profile);
+            $('#accountModal #token').val(doc.data().token);
         });
     } else {
         $('.private').hide();
