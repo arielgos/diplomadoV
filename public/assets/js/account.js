@@ -48,8 +48,8 @@ $(function () {
         createUserWithEmailAndPassword(authentication, email, password)
             .then(async (userCredential) => {
                 try {
-                    await setDoc(doc(firestore, "users", userCredential.uid), {
-                        id: userCredential.uid,
+                    await setDoc(doc(firestore, "users", userCredential.user.uid), {
+                        id: userCredential.user.uid,
                         name: name,
                         email: email,
                         profile: 0,
