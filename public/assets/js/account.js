@@ -48,11 +48,11 @@ $(function () {
         createUserWithEmailAndPassword(authentication, email, password)
             .then(async (userCredential) => {
                 try {
-                    const userRef = await addDoc(collection(firestore, "users"), {
-                        "id": userCredential.user.uid,
-                        "name": name,
-                        "email": email,
-                        "profile": 0
+                    await setDoc(doc(firestore, "users", userCredential.uid), {
+                        id: userCredential.uid,
+                        name: name,
+                        email: email,
+                        profile: profile
                     });
                     $('#registerModal').modal('hide');
                     loading(false);
@@ -90,13 +90,12 @@ $(function () {
     $('#accountModal .btn-primary').click(async function (event) {
         event.preventDefault();
         let id = $('#accountModal #id').val();
-        let uid = $('#accountModal #uid').val();
         let name = $('#accountModal #name').val();
         let email = $('#accountModal #email').val();
         let profile = $('#accountModal #profile').val();
         loading(true);
         await setDoc(doc(firestore, "users", id), {
-            id: uid,
+            id: id,
             name: name,
             email: email,
             profile: profile
@@ -123,7 +122,6 @@ onAuthStateChanged(authentication, async (user) => {
              * Loading user data
              */
             $('#accountModal #id').val(doc.id);
-            $('#accountModal #uid').val(doc.data().id);
             $('#accountModal #name').val(doc.data().name);
             $('#accountModal #email').val(doc.data().email);
             $('#accountModal #profile').val(doc.data().profile);
