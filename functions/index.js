@@ -18,15 +18,10 @@ exports.newImage = functions.storage.object().onFinalize(() => {
         }
     };
 
-    const options = {
-        priority: "high",
-        timeToLive: 60 * 60 * 2
-    };
-
-    admin.messaging().sendToTopic("amazingstore", payload, options).then((response) => {
-        functions.logger.info("Successfully sent message: " + response, { structuredData: true });
-        return { success: true };
-    }).catch((error) => {
-        return { error: error.code };
-    });
+    return admin.messaging().sendToTopic("amazingstore", payload)
+        .then((response) => {
+            console.log("Successfully sent message:", response);
+        }).catch((error) => {
+            console.log("Notification sent failed:", error);
+        });
 });
