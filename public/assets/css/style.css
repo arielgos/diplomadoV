@@ -1,6 +1,6 @@
 #loading {
     background-color: rgba(0, 0, 0, 0.65);
-    display: none;
+    display: block;
     position: fixed;
     top: 0;
     bottom: 0;
