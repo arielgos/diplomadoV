@@ -97,4 +97,4 @@ onAuthStateChanged(authentication, async (user) => {
     }
 });
 
-export { firebase, trackEvent, remoteConfig, authentication, realtimeDatabase, firestore, messaging, appTitle, version }
+export { trackEvent, authentication, realtimeDatabase, firestore, messaging, appTitle, version }
