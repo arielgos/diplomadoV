@@ -5,6 +5,7 @@ import { getDatabase } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-d
 import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
 import { getMessaging } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-messaging.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-storage.js";
 import { loading } from "./utils.js";
 
 const config = {
@@ -36,6 +37,7 @@ const realtimeDatabase = getDatabase(firebase);
 const firestore = getFirestore(firebase);
 const authentication = getAuth(firebase);
 const messaging = getMessaging(firebase);
+const storage = getStorage(firebase);
 
 /**
  * Analytics
@@ -110,4 +112,4 @@ function currentUser() {
     return user;
 }
 
-export { trackEvent, authentication, realtimeDatabase, firestore, messaging, appTitle, version, currentUser }
+export { authentication, realtimeDatabase, firestore, messaging, storage, appTitle, version, currentUser, trackEvent }

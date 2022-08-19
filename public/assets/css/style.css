@@ -21,3 +21,7 @@
 .container.hide {
     display: none;
 }
+
+textarea {
+    min-height: 120px !important;
+}
