@@ -7,7 +7,7 @@ $(function () {
     trackEvent("Login");
 
     loading(false);
-    $("#content .card-header").html(appTitle);
+    $("#login .card-header").html(appTitle);
 
     //rewrite submit
     $('#login').submit(function (event) {
