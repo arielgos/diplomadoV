@@ -67,8 +67,8 @@ updateTitle(appTitle, version);
 
 fetchAndActivate(remoteConfig)
     .then(() => {
-        let appTitle = getValue(remoteConfig, "appTitle").asString();
-        let version = getValue(remoteConfig, "version").asNumber();
+        appTitle = getValue(remoteConfig, "appTitle").asString();
+        version = getValue(remoteConfig, "version").asNumber();
         updateTitle(appTitle, version);
     })
     .catch((err) => {
@@ -79,14 +79,23 @@ function updateTitle(title, version) {
     document.title = title + " [" + version + "]";
 }
 
+
+let user = {};
 /**
  * Auth State listener
  */
-onAuthStateChanged(authentication, async (user) => {
-    if (user) {
+onAuthStateChanged(authentication, async (firebaseUser) => {
+    if (firebaseUser) {
         loading(true);
-        const querySnapshot = await getDocs(query(collection(firestore, "users"), where("id", "==", user.uid)));
+        const querySnapshot = await getDocs(query(collection(firestore, "users"), where("id", "==", firebaseUser.uid)));
         querySnapshot.forEach((doc) => {
+            user = {
+                id: doc.id,
+                name: doc.data().name,
+                email: doc.data().email,
+                profile: doc.data().profile,
+                token: doc.data().token
+            };
             loading(false);
             if (!location.href.toLowerCase().includes("console.html")) {
                 location.href = "console.html";
@@ -97,4 +106,8 @@ onAuthStateChanged(authentication, async (user) => {
     }
 });
 
-export { trackEvent, authentication, realtimeDatabase, firestore, messaging, appTitle, version }
+function currentUser() {
+    return user;
+}
+
+export { trackEvent, authentication, realtimeDatabase, firestore, messaging, appTitle, version, currentUser }
