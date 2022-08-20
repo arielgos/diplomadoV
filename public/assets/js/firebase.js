@@ -2,9 +2,11 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.1/firebase
 import { getAnalytics, logEvent, setUserProperties } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-analytics.js";
 import { getRemoteConfig, getValue, fetchAndActivate } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-remote-config.js";
 import { getDatabase } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-database.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
 import { getMessaging } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-messaging.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-storage.js";
+import { loading } from "./utils.js";
 
 const config = {
     apiKey: "AIzaSyCN434D3q_QIE1yDFf4QNtiKRDp93mA3fs",
@@ -35,6 +37,7 @@ const realtimeDatabase = getDatabase(firebase);
 const firestore = getFirestore(firebase);
 const authentication = getAuth(firebase);
 const messaging = getMessaging(firebase);
+const storage = getStorage(firebase);
 
 /**
  * Analytics
@@ -59,13 +62,16 @@ const rcDefaultsJson = await rcDefaultsFile.json();
 
 remoteConfig.defaultConfig = rcDefaultsJson;
 
-updateTitle(remoteConfig.defaultConfig.appTitle, remoteConfig.defaultConfig.version);
+let appTitle = remoteConfig.defaultConfig.appTitle;
+let version = remoteConfig.defaultConfig.version;
+
+updateTitle(appTitle, version);
 
 fetchAndActivate(remoteConfig)
     .then(() => {
-        const appTitle = getValue(remoteConfig, "appTitle");
-        const version = getValue(remoteConfig, "version");
-        updateTitle(appTitle.asString(), version.asNumber());
+        appTitle = getValue(remoteConfig, "appTitle").asString();
+        version = getValue(remoteConfig, "version").asNumber();
+        updateTitle(appTitle, version);
     })
     .catch((err) => {
         console.error(err);
@@ -73,12 +79,37 @@ fetchAndActivate(remoteConfig)
 
 function updateTitle(title, version) {
     document.title = title + " [" + version + "]";
-    document.getElementById('title').innerHTML = document.title;
 }
 
+
+let user = {};
 /**
- * Cloud Messaging
+ * Auth State listener
  */
+onAuthStateChanged(authentication, async (firebaseUser) => {
+    if (firebaseUser) {
+        loading(true);
+        const querySnapshot = await getDocs(query(collection(firestore, "users"), where("id", "==", firebaseUser.uid)));
+        querySnapshot.forEach((doc) => {
+            user = {
+                id: doc.id,
+                name: doc.data().name,
+                email: doc.data().email,
+                profile: doc.data().profile,
+                token: doc.data().token
+            };
+            loading(false);
+            if (!location.href.toLowerCase().includes("console.html")) {
+                location.href = "console.html";
+            }
+        });
+    } else if (!location.href.toLowerCase().includes("index.html")) {
+        location.href = "index.html";
+    }
+});
 
+function currentUser() {
+    return user;
+}
 
-export { firebase, trackEvent, remoteConfig, authentication, realtimeDatabase, firestore, messaging }
+export { authentication, realtimeDatabase, firestore, messaging, storage, appTitle, version, currentUser, trackEvent }

@@ -1,31 +1,9 @@
 import { trackEvent, authentication, firestore } from "./firebase.js";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
-import { collection, addDoc, query, where, getDocs, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
+import { collection, query, where, getDocs, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js";
 import { loading } from "./utils.js";
 
 $(function () {
-    /**
-     * Login
-     */
-    $('#loginModal .btn-primary').click(function (event) {
-        event.preventDefault();
-        let email = $('#loginModal #email').val();
-        let password = $('#loginModal #password').val();
-
-        loading(true);
-
-        signInWithEmailAndPassword(authentication, email, password)
-            .then(() => {
-                loading(false);
-                $('#loginModal').modal('hide');
-                trackEvent('Login...');
-            })
-            .catch((error) => {
-                loading(false);
-                console.error(error.message, error)
-                swal("Advertencia!", "Usuario o contraseña incorrectos no encontrado", "warning");
-            });
-    });
 
     /**
      * Register
