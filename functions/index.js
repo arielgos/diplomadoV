@@ -95,7 +95,7 @@ exports.newProduct = functions.firestore
         const name = newValue.name;
 
         const mailOptions = {
-            from: "Pruebas <agos.pruebas.email@gmail.com>",
+            from: "agos.pruebas.email@gmail.com",
             to: "arielg.os@gmail.com",
             subject: "Nuevo producto",
             html: "<p style=\"font-size: 16px;\">Se ha creado un nuevo producto <b>[" + id + "] " + name + "</b></p>"
