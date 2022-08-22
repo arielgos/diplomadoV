@@ -89,21 +89,21 @@ let transporter = nodemailer.createTransport({
 
 exports.newProduct = functions.firestore
     .document("products/{docId}")
-    .onCreate((snap, context) => {
+    .onCreate(async (snap, context) => {
         const newValue = snap.data();
         const id = newValue.id;
         const name = newValue.name;
 
         const mailOptions = {
-            from: "no-reply <amazing-store@gmail.com>",
+            from: "Pruebas <agos.pruebas.email@gmail.com>",
             to: "arielg.os@gmail.com",
             subject: "Nuevo producto",
             html: "<p style=\"font-size: 16px;\">Se ha creado un nuevo producto <b>[" + id + "] " + name + "</b></p>"
         };
-        return transporter.sendMail(mailOptions, (erro, info) => {
+        return await transporter.sendMail(mailOptions, (erro, info) => {
             if (erro) {
-                return res.send(erro.toString());
+                console.error(erro);
             }
-            return res.send('Sended');
+            return console.log('Sended');
         });
     });
