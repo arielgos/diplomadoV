@@ -93,12 +93,28 @@ exports.newProductAvailable = functions.firestore
         const newValue = change.after.data();
 
         if (newValue.status) {
+
+            const payload = {
+                notification: {
+                    title: "Amazing Store",
+                    body: "Nuevo Producto disponible [" + newValue.id + "] " + newValue.name
+                }
+            };
+
+            await admin.messaging().sendToTopic("amazingstore", payload)
+                .then((response) => {
+                    console.log("Successfully sent message:", response);
+                }).catch((error) => {
+                    console.log("Notification sent failed:", error);
+                });
+
             const mailOptions = {
                 from: "agos.pruebas.email@gmail.com",
                 to: "arielg.os@gmail.com",
                 subject: "Nuevo producto",
                 html: "<p style=\"font-size: 16px;\">Se ha habilitado un nuevo producto <b>[" + newValue.id + "] " + newValue.name + "</b></p>"
             };
+            
             return await transporter.sendMail(mailOptions, (erro, info) => {
                 if (erro) {
                     console.error(erro);
@@ -125,7 +141,7 @@ exports.newOrder = functions.firestore
             }
         };
 
-        return admin.messaging().sendToTopic("amazingstore", payload)
+        return await admin.messaging().sendToTopic("amazingstore", payload)
             .then((response) => {
                 console.log("Successfully sent message:", response);
             }).catch((error) => {
@@ -144,7 +160,7 @@ exports.updateOrder = functions.firestore
             }
         };
 
-        return admin.messaging().sendToTopic("amazingstore", payload)
+        return await admin.messaging().sendToTopic("amazingstore", payload)
             .then((response) => {
                 console.log("Successfully sent message:", response);
             }).catch((error) => {
