@@ -87,23 +87,67 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-exports.newProduct = functions.firestore
+exports.newProductAvailable = functions.firestore
     .document("products/{docId}")
+    .onUpdate(async (change, context) => {
+        const newValue = change.after.data();
+
+        if (newValue.status) {
+            const mailOptions = {
+                from: "agos.pruebas.email@gmail.com",
+                to: "arielg.os@gmail.com",
+                subject: "Nuevo producto",
+                html: "<p style=\"font-size: 16px;\">Se ha habilitado un nuevo producto <b>[" + newValue.id + "] " + newValue.name + "</b></p>"
+            };
+            return await transporter.sendMail(mailOptions, (erro, info) => {
+                if (erro) {
+                    console.error(erro);
+                }
+                return console.log('Sended');
+            });
+        } else {
+            return console.log('Not Enabled');
+        }
+    });
+
+/**
+ * Listeners for orders
+ */
+exports.newOrder = functions.firestore
+    .document('orders/{orderId}')
     .onCreate(async (snap, context) => {
         const newValue = snap.data();
-        const id = newValue.id;
-        const name = newValue.name;
 
-        const mailOptions = {
-            from: "agos.pruebas.email@gmail.com",
-            to: "arielg.os@gmail.com",
-            subject: "Nuevo producto",
-            html: "<p style=\"font-size: 16px;\">Se ha creado un nuevo producto <b>[" + id + "] " + name + "</b></p>"
-        };
-        return await transporter.sendMail(mailOptions, (erro, info) => {
-            if (erro) {
-                console.error(erro);
+        const payload = {
+            notification: {
+                title: "Amazing Store",
+                body: "Nuevo pedido registrado " + snap.id
             }
-            return console.log('Sended');
-        });
+        };
+
+        return admin.messaging().sendToTopic("amazingstore", payload)
+            .then((response) => {
+                console.log("Successfully sent message:", response);
+            }).catch((error) => {
+                console.log("Notification sent failed:", error);
+            });
     });
+
+exports.updateOrder = functions.firestore
+    .document('orders/{orderId}')
+    .onUpdate(async (change, context) => {
+        const newValue = change.after.data();
+        const payload = {
+            notification: {
+                title: "Amazing Store",
+                body: "Pedido actualizado " + change.before.id
+            }
+        };
+
+        return admin.messaging().sendToTopic("amazingstore", payload)
+            .then((response) => {
+                console.log("Successfully sent message:", response);
+            }).catch((error) => {
+                console.log("Notification sent failed:", error);
+            });
+    });   
