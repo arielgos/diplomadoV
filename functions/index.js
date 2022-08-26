@@ -114,7 +114,7 @@ exports.newProductAvailable = functions.firestore
                 subject: "Nuevo producto",
                 html: "<p style=\"font-size: 16px;\">Se ha habilitado un nuevo producto <b>[" + newValue.id + "] " + newValue.name + "</b></p>"
             };
-            
+
             return await transporter.sendMail(mailOptions, (erro, info) => {
                 if (erro) {
                     console.error(erro);
@@ -153,10 +153,20 @@ exports.updateOrder = functions.firestore
     .document('orders/{orderId}')
     .onUpdate(async (change, context) => {
         const newValue = change.after.data();
+        const newStatus = newValue.status;
+        let body = "Pedido actualizado " + change.before.id
+
+        if (newStatus == 1) {
+            body = "Pedido en Proceso " + change.before.id
+        }
+        if (newStatus == 2) {
+            body = "Pedido Entregado " + change.before.id
+        }
+
         const payload = {
             notification: {
                 title: "Amazing Store",
-                body: "Pedido actualizado " + change.before.id
+                body: body
             }
         };
 
