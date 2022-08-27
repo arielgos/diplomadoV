@@ -2,10 +2,12 @@ import { appTitle, authentication } from "./firebase.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
 import { dashboardModule } from "./dashboard.js";
 import { usersModule } from "./users.js";
+import { productsModule } from "./products.js";
 
 $(function () {
     adminModule.init();
-    dashboardModule.init();
+    //dashboardModule.init();
+    productsModule.init();
 });
 
 const adminModule = {
@@ -18,6 +20,11 @@ const adminModule = {
         $("#dashboardModule").click((event) => {
             event.preventDefault();
             dashboardModule.init();
+        });
+
+        $("#productsModule").click((event) => {
+            event.preventDefault();
+            productsModule.init();
         });
 
         $("#usersModule").click((event) => {

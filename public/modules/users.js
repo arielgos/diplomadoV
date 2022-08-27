@@ -9,9 +9,7 @@ const usersModule = {
         await view.load("./modules/users.html", usersModule.events);
     },
     events: async () => {
-
         usersModule.load();
-
         $('#userModal #save').click(async function (event) {
             event.preventDefault();
             usersModule.save();
