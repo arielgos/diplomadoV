@@ -13,7 +13,6 @@ const view = {
             .then((response) => {
                 return response.text();
             }).then((html) => {
-                console.log(html);
                 $("#wrapper").html(html);
                 callback();
             }).catch((error) => {

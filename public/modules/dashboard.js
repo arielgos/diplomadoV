@@ -5,12 +5,14 @@ const dashboardModule = {
         trackEvent("Dashboard");
         loading.show();
         await view.load("./dashboard.html", () => {
-            console.log("loaded");
             loading.hide();
+            dashboardModule.events();
         });
     },
     events: () => {
-
+        $("#content").click(() => {
+            console.log("click");
+        });
     }
 };
 
