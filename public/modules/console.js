@@ -1,6 +1,7 @@
 import { appTitle, authentication } from "./firebase.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
 import { dashboardModule } from "./dashboard.js";
+import { usersModule } from "./users.js";
 
 $(function () {
     adminModule.init();
@@ -13,6 +14,17 @@ const adminModule = {
         adminModule.events();
     },
     events: () => {
+
+        $("#dashboardModule").click((event) => {
+            event.preventDefault();
+            dashboardModule.init();
+        });
+
+        $("#usersModule").click((event) => {
+            event.preventDefault();
+            usersModule.init();
+        });
+
         $("#signOut").click((event) => {
             event.preventDefault();
             adminModule.signOut();
