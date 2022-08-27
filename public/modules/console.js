@@ -10,19 +10,21 @@ $(function () {
 const adminModule = {
     init: () => {
         $(".navbar #title").html(appTitle);
-
-        //Signout
-        $("#signOut").click( (event)=> {
+        adminModule.events();
+    },
+    events: () => {
+        $("#signOut").click((event) => {
             event.preventDefault();
             adminModule.signOut();
         });
     },
-    signOut: function () {
-        signOut(authentication).then(() => {
-            loading.show();
-            location.href = "index.html";
-        }).catch((error) => {
-            console.error(error.message, error);
-        });
+    signOut: () => {
+        signOut(authentication)
+            .then(() => {
+                loading.show();
+                location.href = "index.html";
+            }).catch((error) => {
+                console.error(error.message, error);
+            });
     }
 };
