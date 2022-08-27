@@ -154,18 +154,6 @@ const productsModule = {
         productsModule.load();
         loading.hide();
 
-
-        /**
-         let reference = ref(storage, firstFile.name);
-         loading.show();
-         await uploadBytes(reference, firstFile)
-             .then((snapshot) => {
-                 console.log(snapshot);
-                 console.log('Uploaded a blob or file!');
-                 loading.hide();
-             });
-        */
-
     }
 };
 
