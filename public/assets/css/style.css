@@ -17,11 +17,3 @@
     margin-top: 40vh;
     font-size: 1.6em;
 }
-
-.container.hide {
-    display: none;
-}
-
-textarea {
-    min-height: 120px !important;
-}

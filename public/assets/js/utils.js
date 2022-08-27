@@ -1,15 +1,30 @@
-function loading(value) {
-    if (value) {
-        $('#loading').show();
-    } else {
+const loading = {
+    hide: () => {
         $('#loading').hide();
+    },
+    show: () => {
+        $('#loading').show();
     }
-}
+};
 
+const view = {
+    load: async (fileName, callback) => {
+        await fetch(fileName)
+            .then((response) => {
+                return response.text();
+            }).then((html) => {
+                console.log(html);
+                $("#wrapper").html(html);
+                callback();
+            }).catch((error) => {
+                console.warn('Error loading view: ', error);
+            });
+    }
+};
 
-$('.modal').modal({
-    keyboard: false,
-    backdrop: 'static'
+$(() => {
+    $('.modal').modal({
+        keyboard: false,
+        backdrop: 'static'
+    });
 });
-
-export { loading }
