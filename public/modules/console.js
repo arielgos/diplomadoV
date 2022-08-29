@@ -7,8 +7,7 @@ import { pricesModule } from "./prices.js";
 
 $(function () {
     adminModule.init();
-    //dashboardModule.init();
-    pricesModule.init();
+    dashboardModule.init();
 });
 
 const adminModule = {
