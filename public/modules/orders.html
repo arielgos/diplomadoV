@@ -1,0 +1,88 @@
+<div class="row">
+    <div class="col-8">
+        <h1>Pedidos</h1>
+    </div>
+    <div class="col-4 text-end">
+        <table class="table">
+            <tr>
+                <td class="table-primary text-center">
+                    Pendiente
+                </td>
+                <td class="table-success text-center">
+                    En Proceso
+                </td>
+                <td class="table-active text-center">
+                    Entregado
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <table class="table table-hover" id="table">
+            <thead class="thead-dark text-center">
+                <tr>
+                    <th>#</th>
+                    <th>Pedido</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal modal-lg fade" role="dialog" id="orderModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Pedido <b>#<span id="id"></span></b></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3 id="user"></h3>
+                <h6 id="date"></h6>
+                <table class="table table-hover table-striped" id="details">
+                    <thead class="thead-dark text-center">
+                        <tr>
+                            <th>#</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="4" class="text-end">Total</th>
+                            <th class="text-end"><b><span id="total"></span></b></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="status" id="pending" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="pending">Pendiente</label>
+                    <input type="radio" class="btn-check" name="status" id="inProgress" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="inProgress">En Proceso</label>
+                    <input type="radio" class="btn-check" name="status" id="delivered" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="delivered">Entregado</label>
+                </div>
+                <button type="button" class="btn btn-primary" id="save">Guardar</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

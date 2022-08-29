@@ -4,10 +4,12 @@ import { dashboardModule } from "./dashboard.js";
 import { usersModule } from "./users.js";
 import { productsModule } from "./products.js";
 import { pricesModule } from "./prices.js";
+import { ordersModule } from "./orders.js";
 
 $(function () {
     adminModule.init();
-    dashboardModule.init();
+    //dashboardModule.init();
+    ordersModule.init();
 });
 
 const adminModule = {
@@ -20,6 +22,11 @@ const adminModule = {
         $("#dashboardModule").click((event) => {
             event.preventDefault();
             dashboardModule.init();
+        });
+
+        $("#ordersModule").click((event) => {
+            event.preventDefault();
+            ordersModule.init();
         });
 
         $("#pricesModule").click((event) => {
