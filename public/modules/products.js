@@ -49,7 +49,7 @@ const productsModule = {
             let detail = $("<td>");
             let price = $("<td>", { class: "text-end" });
             let tags = $("<td>");
-            let status = $("<td>");
+            let status = $("<td>", { class: "text-center" });
             number.html(position + 1);
             image.html("<img src=\"https://firebasestorage.googleapis.com/v0/b/diplomadov-f5e39.appspot.com/o/thumb_" + product.image + "?alt=media\" width=\"48px\">");
             name.html(product.name);
