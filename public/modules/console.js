@@ -9,8 +9,8 @@ import { chatModule } from "./chat.js";
 
 $(function () {
     adminModule.init();
-    //dashboardModule.init();
-    chatModule.init();
+    dashboardModule.init();
+    //chatModule.init();
 });
 
 const adminModule = {

@@ -2,6 +2,7 @@ const functions = require("firebase-functions");
 const moment = require("moment");
 const admin = require("firebase-admin");
 const nodemailer = require('nodemailer');
+const cors = require('cors')({ origin: true });
 const spawn = require("child-process-promise").spawn;
 const path = require("path");
 const os = require("os");
@@ -22,19 +23,21 @@ exports.holaMundo = functions.https
  * Subscribe to topic
  */
 exports.subscribeTokenToTopic = functions.https
-    .onRequest(async (request, response) => {
-        console.log("Data:" + request.body);
-        await admin.messaging().subscribeToTopic(request.body.token, request.body.topic)
-            .then((response) => {
-                console.log('Successfully subscribed to topic:', response);
-                response.send(true);
-            })
-            .catch((error) => {
-                console.log('Error subscribing to topic:', error);
-                response.send(false);
-            });
-    });
+    .onRequest((request, response) => {
+        cors(req, res, async () => {
+            console.log("Data:" + request.body);
+            await admin.messaging().subscribeToTopic(request.body.token, request.body.topic)
+                .then((response) => {
+                    console.log('Successfully subscribed to topic:', response);
+                    response.send(true);
+                })
+                .catch((error) => {
+                    console.log('Error subscribing to topic:', error);
+                    response.send(false);
+                });
+        })
 
+    });
 
 /**
  * On new Image
