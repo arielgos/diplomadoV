@@ -16,7 +16,7 @@ const config = {
     appId: "1:135023020170:web:3d9646ba3b832a1d878573",
     measurementId: "G-MWL22S5EDC",
     databaseURL: "https://diplomadov-f5e39-default-rtdb.firebaseio.com",
-    messagingKey: "BCaU2y_Syir5zzdmsccB56J7D0SgJGEkiECRnPory3pcZ9mwowDQ_E-JQoMaIBvSNHijVIvnr9EUtXxB9-9t280"
+    vapidKey: "BCaU2y_Syir5zzdmsccB56J7D0SgJGEkiECRnPory3pcZ9mwowDQ_E-JQoMaIBvSNHijVIvnr9EUtXxB9-9t280"
 };
 
 /**
@@ -101,7 +101,7 @@ onAuthStateChanged(authentication, async firebaseUser => {
 /**
  * Messaging
  */
-getToken(messaging, { vapidKey: config.messagingKey })
+getToken(messaging, { vapidKey: config.vapidKey })
     .then(async (currentToken) => {
         if (currentToken) {
             console.log(currentToken);
