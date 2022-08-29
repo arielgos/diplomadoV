@@ -5,11 +5,12 @@ import { usersModule } from "./users.js";
 import { productsModule } from "./products.js";
 import { pricesModule } from "./prices.js";
 import { ordersModule } from "./orders.js";
+import { chatModule } from "./chat.js";
 
 $(function () {
     adminModule.init();
     //dashboardModule.init();
-    ordersModule.init();
+    chatModule.init();
 });
 
 const adminModule = {
@@ -42,6 +43,11 @@ const adminModule = {
         $("#usersModule").click((event) => {
             event.preventDefault();
             usersModule.init();
+        });
+
+        $("#chatModule").click((event) => {
+            event.preventDefault();
+            chatModule.init();
         });
 
         $("#signOut").click((event) => {

@@ -60,7 +60,7 @@
                         </div>
                     </li>
                     <li>
-                        <a class="nav-link" href="chats.html">
+                        <a class="nav-link" href="#" id="chatModule">
                             <span class="fa fa-comments"></span>&nbsp;&nbsp;Chats</a>
                         </a>
                     </li>
@@ -89,6 +89,14 @@
     <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="assets/js/utils.js" type="text/javascript"></script>
     <script src="modules/console.js" type="module"></script>
+
+    <script type="text/javascript">
+        Notification.requestPermission().then(function (resource) {
+            if (resource === 'granted') {
+                console.log("Permission Granted");
+            }
+        });
+    </script>
 
 </body>
 

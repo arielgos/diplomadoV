@@ -5,7 +5,7 @@ const ordersModule = {
     orders: [],
     orderSelected: {},
     init: async () => {
-        trackEvent("Prices");
+        trackEvent("Orders");
         await view.load("./modules/orders.html", ordersModule.events);
     },
     events: () => {
