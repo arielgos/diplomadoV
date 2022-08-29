@@ -4,9 +4,8 @@ import { getRemoteConfig, getValue, fetchAndActivate } from "https://www.gstatic
 import { getDatabase } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-database.js";
 import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-auth.js";
-import { getMessaging } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-messaging.js";
+import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-messaging.js";
 import { getStorage } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-storage.js";
-import { loading } from "./utils.js";
 
 const config = {
     apiKey: "AIzaSyCN434D3q_QIE1yDFf4QNtiKRDp93mA3fs",
@@ -16,7 +15,8 @@ const config = {
     messagingSenderId: "135023020170",
     appId: "1:135023020170:web:3d9646ba3b832a1d878573",
     measurementId: "G-MWL22S5EDC",
-    databaseURL: "https://diplomadov-f5e39-default-rtdb.firebaseio.com"
+    databaseURL: "https://diplomadov-f5e39-default-rtdb.firebaseio.com",
+    messagingKey: "BCaU2y_Syir5zzdmsccB56J7D0SgJGEkiECRnPory3pcZ9mwowDQ_E-JQoMaIBvSNHijVIvnr9EUtXxB9-9t280"
 };
 
 /**
@@ -50,8 +50,6 @@ function trackEvent(message) {
     logEvent(analytics, message);
 }
 
-trackEvent('App Loaded...');
-
 /**
  * Remote config
  */
@@ -65,30 +63,26 @@ remoteConfig.defaultConfig = rcDefaultsJson;
 let appTitle = remoteConfig.defaultConfig.appTitle;
 let version = remoteConfig.defaultConfig.version;
 
-updateTitle(appTitle, version);
-
 fetchAndActivate(remoteConfig)
     .then(() => {
         appTitle = getValue(remoteConfig, "appTitle").asString();
         version = getValue(remoteConfig, "version").asNumber();
-        updateTitle(appTitle, version);
+        document.title = appTitle + " [" + version + "]";
     })
     .catch((err) => {
         console.error(err);
     });
-
-function updateTitle(title, version) {
-    document.title = title + " [" + version + "]";
-}
-
-
-let user = {};
 /**
- * Auth State listener
+ * Authentication
  */
-onAuthStateChanged(authentication, async (firebaseUser) => {
+
+let user = null;
+
+/**
+* Auth State listener
+*/
+onAuthStateChanged(authentication, async firebaseUser => {
     if (firebaseUser) {
-        loading(true);
         const querySnapshot = await getDocs(query(collection(firestore, "users"), where("id", "==", firebaseUser.uid)));
         querySnapshot.forEach((doc) => {
             user = {
@@ -98,18 +92,42 @@ onAuthStateChanged(authentication, async (firebaseUser) => {
                 profile: doc.data().profile,
                 token: doc.data().token
             };
-            loading(false);
-            if (!location.href.toLowerCase().includes("console.html")) {
-                location.href = "console.html";
-            }
         });
     } else if (!location.href.toLowerCase().includes("index.html")) {
         location.href = "index.html";
     }
 });
 
-function currentUser() {
-    return user;
-}
+/**
+ * Messaging
+ */
+getToken(messaging, { vapidKey: config.messagingKey })
+    .then(async (currentToken) => {
+        if (currentToken) {
+            console.log(currentToken);
+            await fetch("https://us-central1-diplomadov-f5e39.cloudfunctions.net/subscribeTokenToTopic", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token: currentToken,
+                    topic: "amazingstore"
+                })
+            }).then(response => {
+                console.log(response);
+            });
+        } else {
+            console.log("No registration token available. Request permission to generate one.");
+        }
+    }).catch((error) => {
+        console.log("An error occurred while retrieving token.", error);
+    });
 
-export { authentication, realtimeDatabase, firestore, messaging, storage, appTitle, version, currentUser, trackEvent }
+onMessage(messaging, payload => {
+    console.log('Message received. ', payload);
+});
+
+
+export { appTitle, trackEvent, remoteConfig, realtimeDatabase, firestore, authentication, messaging, storage, user }

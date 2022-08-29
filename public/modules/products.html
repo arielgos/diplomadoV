@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-8">
+        <h1>Productos</h1>
+    </div>
+    <div class="col-4 text-end">
+        <button type="button" id="add" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
+            <span class="fa fa-plus"></span>&nbsp;&nbsp;Agregar
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <table class="table table-hover table-striped">
+            <thead class="thead-dark text-center">
+                <tr>
+                    <th>#</th>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Detalle</th>
+                    <th>Precio</th>
+                    <th>Tags</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal fade" role="dialog" id="productModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="#" method="post">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="name" placeholder="Producto 1" required>
+                        <label for="name">Nombre</label>
+                    </div>
+                    <div class="form-floating mt-4">
+                        <input type="number" class="form-control" id="price" placeholder="0.00" required>
+                        <label for="price">Precio</label>
+                    </div>
+                    <div class="form-floating mt-4">
+                        <input type="text" class="form-control" id="tags" placeholder="sample,sample" required>
+                        <label for="tags">Tags</label>
+                    </div>
+                    <div class="form-group mt-4">
+                        <label for="image">Imagen</label>
+                        <input type="file" class="form-control" id="image" accept="image/jpeg">
+                        <img src="" alt="" id="imageLoaded" width="100%" class="mt-2">
+                    </div>
+                    <div class="form-floating mt-4">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="status">
+                            <label class="form-check-label" for="status">Estado</label>
+                        </div>
+                    </div>
+                    <div class="form-floating mt-4">
+                        <textarea class="form-control" id="description" rows="5"></textarea>
+                        <label for="description">Detalle</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="save">Guardar</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
