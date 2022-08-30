@@ -126,8 +126,7 @@ getToken(messaging, { vapidKey: config.vapidKey })
     });
 
 onMessage(messaging, payload => {
-    console.log('Message received. ', payload);
+    console.log('Message at Foreground', payload);
 });
-
 
 export { appTitle, trackEvent, remoteConfig, realtimeDatabase, firestore, authentication, messaging, storage, user }
