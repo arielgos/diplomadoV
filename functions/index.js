@@ -23,8 +23,13 @@ exports.holaMundo = functions.https
  * Subscribe to topic
  */
 exports.subscribeTokenToTopic = functions.https
-    .onRequest((request, response) => {
-        cors(req, res, async () => {
+    .onRequest(async (request, response) => {
+        request.set('Access-Control-Allow-Origin', '*');
+        request.set('Access-Control-Allow-Methods', 'GET,POST');
+        request.set('Access-Control-Max-Age', '3600');
+        if (request.method === 'OPTIONS') {
+            request.send("");
+        } else if (request.method === "POST") {
             console.log("Data:" + request.body);
             await admin.messaging().subscribeToTopic(request.body.token, request.body.topic)
                 .then((response) => {
@@ -35,8 +40,7 @@ exports.subscribeTokenToTopic = functions.https
                     console.log('Error subscribing to topic:', error);
                     response.send(false);
                 });
-        })
-
+        }
     });
 
 /**
