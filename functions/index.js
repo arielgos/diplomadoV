@@ -2,7 +2,6 @@ const functions = require("firebase-functions");
 const moment = require("moment");
 const admin = require("firebase-admin");
 const nodemailer = require('nodemailer');
-const cors = require('cors')({ origin: true });
 const spawn = require("child-process-promise").spawn;
 const path = require("path");
 const os = require("os");
@@ -24,20 +23,18 @@ exports.holaMundo = functions.https
  */
 exports.subscribeTokenToTopic = functions.https
     .onRequest(async (request, response) => {
-        request.set('Access-Control-Allow-Origin', '*');
-        request.set('Access-Control-Allow-Methods', 'GET,POST');
-        request.set('Access-Control-Max-Age', '3600');
-        if (request.method === 'OPTIONS') {
-            request.send("");
+        response.set("Access-Control-Allow-Origin", "*");
+        if (request.method === "OPTIONS") {
+            response.end();
         } else if (request.method === "POST") {
             console.log("Data:" + request.body);
             await admin.messaging().subscribeToTopic(request.body.token, request.body.topic)
                 .then((response) => {
-                    console.log('Successfully subscribed to topic:', response);
+                    console.log("Successfully subscribed to topic:", response);
                     response.send(true);
                 })
                 .catch((error) => {
-                    console.log('Error subscribing to topic:', error);
+                    console.log("Error subscribing to topic:", error);
                     response.send(false);
                 });
         }
