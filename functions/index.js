@@ -24,13 +24,15 @@ exports.holaMundo = functions.https
 exports.subscribeTokenToTopic = functions.https
     .onRequest(async (request, response) => {
         response.set("Access-Control-Allow-Origin", "*");
+        response.set("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+        response.set("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
         if (request.method === "OPTIONS") {
             response.end();
         } else if (request.method === "POST") {
             console.log("Data:" + request.body);
             await admin.messaging().subscribeToTopic(request.body.token, request.body.topic)
-                .then((response) => {
-                    console.log("Successfully subscribed to topic:", response);
+                .then((res) => {
+                    console.log("Successfully subscribed to topic:", res);
                     response.send(true);
                 })
                 .catch((error) => {

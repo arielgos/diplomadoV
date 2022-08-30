@@ -63,7 +63,7 @@ const pricesModule = {
 
         loading.hide();
 
-        
+
 
     },
     save: async () => {
@@ -72,7 +72,7 @@ const pricesModule = {
         $("#wrapper tbody tr input").each((_, value) => {
             const reference = doc(firestore, "products", $(value).attr("id"));
             batch.update(reference, {
-                price: $(value).val()
+                price: parseFloat($(value).val())
             });
         });
         await batch.commit();

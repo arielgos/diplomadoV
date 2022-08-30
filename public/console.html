@@ -22,8 +22,7 @@
                 <span class="fa fa-shop"></span>&nbsp;&nbsp;<span id="title"></span>
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
-                aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -43,8 +42,7 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                            aria-haspopup="true" aria-expanded="true">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
                             <span class="fa fa-wrench"></span>&nbsp;&nbsp;Administraci&oacute;n</a>
                         <div class="dropdown-menu" data-bs-popper="static">
                             <a class="dropdown-item" href="#" id="pricesModule">
@@ -94,6 +92,13 @@
         Notification.requestPermission().then(function (resource) {
             if (resource === 'granted') {
                 console.log("Permission Granted");
+                navigator.serviceWorker
+                    .register("firebase-messaging-sw.js")
+                    .then(() => {
+                        console.log("Service Worker Registered...");
+                    }).catch(error => {
+                        console.error(error);
+                    });
             }
         });
     </script>

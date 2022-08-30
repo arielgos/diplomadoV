@@ -114,7 +114,7 @@ const productsModule = {
         }
 
         productsModule.productSelected.name = name;
-        productsModule.productSelected.price = price;
+        productsModule.productSelected.price = parseFloat(price);
         productsModule.productSelected.tags = tags;
         productsModule.productSelected.status = status;
         productsModule.productSelected.description = description;

@@ -108,7 +108,7 @@ const ordersModule = {
 
         const reference = doc(firestore, "orders", ordersModule.orderSelected.id);
         await updateDoc(reference, {
-            status: ordersModule.orderSelected.status
+            status: parseInt(ordersModule.orderSelected.status)
         });
 
         ordersModule.load();
