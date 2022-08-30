@@ -26,7 +26,7 @@ const chatModule = {
                     console.log("selected " + data.key);
                     chatModule.chatSelected = data;
 
-                    loadChilds(data);
+                    chatModule.loadChilds(data);
 
                 }
             });
@@ -36,14 +36,13 @@ const chatModule = {
 
         onChildChanged(chatReference, (data) => {
             if (data.key == chatModule.chatSelected.key) {
-                loadChilds(data);
+                chatModule.loadChilds(data);
             }
         });
     },
     loadChilds: (data) => {
         $("#wrapper #chat").html("");
         data.forEach((child) => {
-            console.log(JSON.stringify(child.val()));
             let side = "text-end";
             if (user.id != child.val().uid) {
                 side = "text-start";
@@ -52,7 +51,7 @@ const chatModule = {
                 id: child.key,
                 class: side
             });
-            message.html(chil.val().message);
+            message.html(child.val().message);
             $("#wrapper #chat").prepend(message);
         });
     }
